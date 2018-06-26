@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="465.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainWindow">
-
+<AnchorPane prefHeight="855.0" prefWidth="885.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CourseListController">
+   <children>
+      <TextArea fx:id="display" layoutX="28.0" layoutY="14.0" prefHeight="819.0" prefWidth="832.0" />
+   </children>
 </AnchorPane>

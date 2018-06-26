@@ -1,8 +1,13 @@
 package Controller;
 
+import exe.Main;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -46,7 +51,22 @@ public class CampusWindowController implements Initializable{
         campusComboBox.getSelectionModel().selectFirst();
         departmentComboBox.getSelectionModel().selectFirst();
 
-
-
     }
+
+    public void goButtonClicked(){
+        //switches scenes
+        try {
+            Main.getStage().setTitle(departmentComboBox.getSelectionModel().getSelectedItem());
+
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/View/CourseListWindow.fxml"));
+            AnchorPane pane = loader.load();
+
+            Scene scene = new Scene(pane);
+            Main.getStage().setScene(scene);
+            Main.getStage().show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
