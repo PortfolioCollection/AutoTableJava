@@ -1,12 +1,11 @@
 package Controller;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLButtonElement;
-import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLLinkElement;
+
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,25 +17,35 @@ public class CourseListController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        String url = "http://coursefinder.utoronto.ca/";
+        String url = "https://fas.calendar.utoronto.ca/print/search-courses-print";
         try {
-            WebClient webClient = new WebClient(BrowserVersion.CHROME);
-            webClient.getOptions().setCssEnabled(false);
-            HtmlPage page = webClient.getPage(url);
+            Document document = Jsoup.connect(url).timeout(0).maxBodySize(12000000).get();
 
-            webClient.getOptions().setJavaScriptEnabled(true);
-            webClient.waitForBackgroundJavaScript(5000);
+            StringBuilder courseNames = new StringBuilder();
+            Elements currentCourse = document.select("div.views-row.views-row-1.views-row-odd.views-row-first.no-break");
 
-            System.out.println(page.getElementById("u281_line20").getNodeName());
-            System.out.println(page.getElementById("u281_line20").getNodeType());
-            HtmlPage cs = page.getElementById("u281_line20").click();
-            display.setText(cs.asText());
+            int currentRow = 1;
+            while (!currentCourse.text().isEmpty()){
+                String courseClass = "";
+                if (currentRow % 2 == 1)
+                    courseClass = "div.views-row.views-row-" + currentRow + ".views-row-odd.no-break";
+                if (currentRow % 2 == 0)
+                    courseClass = "div.views-row.views-row-" + currentRow + ".views-row-even.no-break";
+                if (currentRow == 1)
+                    courseClass = "div.views-row.views-row-1.views-row-odd.views-row-first.no-break";
+
+                // contains course code and name
+                currentCourse = document.select(courseClass).select("span.field-content.views-title").select("h3");
+                courseNames.append(currentCourse.text()).append("\n");
+                currentRow ++;
+            }
+
+            display.setText(courseNames.toString() + "\n\n Total course Found:" + currentRow);
 
 
 
-
-        } catch (IOException ex ) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
