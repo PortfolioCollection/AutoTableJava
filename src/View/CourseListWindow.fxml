@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="855.0" prefWidth="885.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CourseListController">
+<AnchorPane prefHeight="486.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CourseListController">
    <children>
-      <TextArea fx:id="display" layoutX="28.0" layoutY="14.0" prefHeight="819.0" prefWidth="832.0" />
+      <TextArea fx:id="display" layoutX="286.0" layoutY="302.0" prefHeight="163.0" prefWidth="259.0" />
+      <ListView fx:id="courseList" layoutX="14.0" layoutY="107.0" prefHeight="360.0" prefWidth="238.0" />
+      <Button layoutX="212.0" layoutY="62.0" mnemonicParsing="false" text="Go" />
+      <RadioButton fx:id="fallButton" disable="true" layoutX="286.0" layoutY="97.0" mnemonicParsing="false" text="Fall" />
+      <RadioButton fx:id="winterButton" disable="true" layoutX="352.0" layoutY="97.0" mnemonicParsing="false" text="Winter" />
+      <RadioButton fx:id="yearButton" disable="true" layoutX="439.0" layoutY="97.0" mnemonicParsing="false" text="Year" />
+      <Label layoutX="287.0" layoutY="123.0" text="Lectures" />
+      <ListView fx:id="lectureList" layoutX="286.0" layoutY="151.0" prefHeight="133.0" prefWidth="117.0" />
+      <TextField layoutX="14.0" layoutY="62.0" />
+      <ListView fx:id="tutorialList" layoutX="424.0" layoutY="151.0" prefHeight="133.0" prefWidth="117.0" />
+      <Label layoutX="425.0" layoutY="123.0" text="Tutorial" />
+      <Label fx:id="courseNameLabel" layoutX="286.0" layoutY="52.0" text="Course name">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
