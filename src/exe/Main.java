@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 public class Main extends Application{
 
@@ -28,6 +29,8 @@ public class Main extends Application{
             Scene scene = new Scene(pane);
             stage.setScene(scene);
             stage.show();
+        } catch (UnknownHostException ue){
+            System.err.println("Failed to connect page");
         } catch (IOException e) {
             e.printStackTrace();
         }

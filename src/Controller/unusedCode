@@ -1,0 +1,29 @@
+String url = "http://coursefinder.utoronto.ca/";
+        try {
+            WebClient webClient = new WebClient(BrowserVersion.CHROME);
+            webClient.getOptions().setCssEnabled(false);
+            HtmlPage page = webClient.getPage(url);
+
+            webClient.getOptions().setJavaScriptEnabled(true);
+            webClient.waitForBackgroundJavaScript(5000);
+
+
+
+
+            DomElement csLink = page.getElementById("u281_line20");
+            System.out.println("OnClick: " + csLink.getAttribute("first_run"));
+
+            //page.executeJavaScript("javascript:" + csLink.getAttribute("first_run"));
+            page.executeJavaScript("jQuery('#' + 'u278_line20').click(function(e) {\n" +
+                    "jq('#finder_crumb').attr('style', 'display:block;'); jq('#deptBrowseSection').attr('style', 'display:none;');back(); sInput = ''; searchForCourseByDept('courseSearchResults', 'courseSearchResultPanel','CSC ', 'Computer Science ','ARTSC', 'Faculty of Arts and Science');return false;\n" +
+                    "});");
+            webClient.waitForBackgroundJavaScript(6000);
+
+            display.setText(page.asText());
+
+
+
+
+        } catch (IOException ex ) {
+            ex.printStackTrace();
+        }
