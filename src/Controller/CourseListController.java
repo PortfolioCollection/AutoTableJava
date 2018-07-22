@@ -2,41 +2,34 @@ package Controller;
 
 
 import Model.Course;
+import Model.MeetingTime;
 import Model.Scrapper;
-import Model.Section;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import Model.Sections.Lecture;
+import Model.Sections.Practical;
+import Model.Sections.Section;
+import Model.Sections.Tutorial;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CourseListController implements Initializable{
 
-    public TextArea display;
     public ListView<Course> courseList;
 
-    public ListView<Section> lectureList;
-    public ListView<Section> tutorialList;
+    public ListView<Lecture> lectureList;
+    public ListView<Tutorial> tutorialList;
+    public ListView<Practical> practicalList;
 
     public RadioButton fallButton;
     public RadioButton winterButton;
     public RadioButton yearButton;
 
     public Label courseNameLabel;
+    public Label courseCodeLabel;
 
-
+    public TextArea displayText;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,42 +54,94 @@ public class CourseListController implements Initializable{
         fallButton.setSelected(false);
         winterButton.setSelected(false);
 
-        yearButton.setOnAction(event -> loadCourse(courseList.getSelectionModel().getSelectedItem(), "year"));
-        fallButton.setOnAction(event -> loadCourse(courseList.getSelectionModel().getSelectedItem(), "fall"));
-        winterButton.setOnAction(event -> loadCourse(courseList.getSelectionModel().getSelectedItem(), "winter"));
+        yearButton.setOnAction(event -> loadCourse(courseList.getSelectionModel().getSelectedItem()));
+        fallButton.setOnAction(event -> loadCourse(courseList.getSelectionModel().getSelectedItem()));
+        winterButton.setOnAction(event -> loadCourse(courseList.getSelectionModel().getSelectedItem()));
     }
 
-    public void loadCourse(Course course, String semester){
+    public void loadCourse(Course course){
         resetListViews();
-        lectureList.getItems().addAll(course.getSections());
+        courseNameLabel.setText(course.getCourseName());
+        courseCodeLabel.setText(course.getCourseCode());
+
+
+        for (Section section: course.getSections()){
+            if (section instanceof Lecture)
+                lectureList.getItems().add((Lecture) section);
+            if (section instanceof Tutorial)
+                tutorialList.getItems().add((Tutorial)section);
+            if (section instanceof Practical)
+                practicalList.getItems().add((Practical)section);
+        }
     }
 
     private void resetListViews(){
         lectureList.getItems().clear();
         tutorialList.getItems().clear();
+        practicalList.getItems().clear();
+
+
+        lectureList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                displaySectionDetail(newValue);
+                tutorialList.getSelectionModel().clearSelection();
+                practicalList.getSelectionModel().clearSelection();
+            }
+        });
+        tutorialList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                displaySectionDetail(newValue);
+                lectureList.getSelectionModel().clearSelection();
+                practicalList.getSelectionModel().clearSelection();
+            }
+        });
+        practicalList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                displaySectionDetail(newValue);
+                lectureList.getSelectionModel().clearSelection();
+                tutorialList.getSelectionModel().clearSelection();
+            }
+        });
+    }
+
+    private void displaySectionDetail(Section section){
+        displayText.clear();
+
+        displayText.appendText(courseCodeLabel.getText() + ": " + section.getSectionCode() + "\n");
+        displayText.appendText("Professor: " + section.getProfessor() + "\n");
+        displayText.appendText("Time:\n");
+
+        for (MeetingTime time : section.getMeetings()) {
+            displayText.appendText(time.getTimeString() + " @ " + time.getLocation() + "\n");
+        }
+
+        displayText.appendText("=========================\n");
+        displayText.appendText("Enrollment: " + section.getEnrollment() + "/" + section.getCapacity() + "\n");
     }
 
     public void initializeCourses(){
 
-        courseList.getItems().addAll(Scrapper.scrapeAllCourses(12000));
+        courseList.getItems().addAll(Scrapper.scrapeAllCourses(1600000));
 
         courseList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             toggleRadioButtons();
 
             if (newValue != null) {
                 resetListViews();
-                courseNameLabel.setText(newValue.getCourseName());
-                yearButton.setDisable(false);
-                if (newValue.getCourseName().charAt(newValue.getCourseName().length() - 2) == 'Y') {
-                    Scrapper.scrapeCourse(newValue, "year");
-
-                } else {
-                    if (Scrapper.scrapeCourse(newValue, "fall")) {
-                        fallButton.setDisable(false);
-                    }
-                    if (Scrapper.scrapeCourse(newValue, "winter")) {
-                        winterButton.setDisable(false);
-                    }
+                if (newValue.getSemester().equals("fall")) {
+                    fallButton.setDisable(false);
+                    fallButton.setSelected(true);
+                    loadCourse(newValue);
+                }
+                if (newValue.getSemester().equals("winter")) {
+                    winterButton.setDisable(false);
+                    winterButton.setSelected(true);
+                    loadCourse(newValue);
+                }
+                if (newValue.getSemester().equals("year")) {
+                    yearButton.setDisable(false);
+                    yearButton.setSelected(true);
+                    loadCourse(newValue);
                 }
 
             }

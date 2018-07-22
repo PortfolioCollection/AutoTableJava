@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Sections.Section;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +15,16 @@ public class Course {
     private List<String> exclusion;
     private List<String> distribution;
     private List<String> breadth;
+    private String semester;
+    private String courseLink;
 
 
     private List<Section> sections;
 
-    public Course(String courseCode, String courseName){
+    public Course(String courseCode, String courseName, String semester){
         this.courseCode = courseCode;
         this.courseName = courseName;
+        this.semester = semester;
 
         sections = new ArrayList<>();
     }
@@ -57,6 +62,12 @@ public class Course {
     }
 
     public String toString(){
+        if (semester.equals("fall"))
+            return courseCode + "F";
+        if (semester.equals("winter"))
+            return courseCode + "S";
+        if (semester.equals("year"))
+            return courseCode + "Y";
         return courseCode;
     }
 
@@ -69,4 +80,15 @@ public class Course {
         sections.add(section);
     }
 
+    public String getSemester() {
+        return semester;
+    }
+
+    public String getCourseLink() {
+        return courseLink;
+    }
+
+    public void setCourseLink(String courseLink){
+        this.courseLink = courseLink;
+    }
 }

@@ -1,5 +1,9 @@
 package Model;
 
+import Model.Sections.Lecture;
+import Model.Sections.Practical;
+import Model.Sections.Section;
+import Model.Sections.Tutorial;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -43,7 +47,25 @@ public class Scrapper {
                 if (!currentCourse.text().equals("")) {
                     String courseCode = currentCourse.text().split(": ")[0];
                     String courseName = currentCourse.text().split(": ")[1];
-                    allCourses.add(new Course(courseCode, courseName));
+
+                    if (checkCourseLink(generateLink(courseCode, "fall"))) {
+                        Course course = new Course(courseCode, courseName, "fall");
+                        course.setCourseLink(generateLink(courseCode, "fall"));
+                        allCourses.add(course);
+                        scrapeCourse(course);
+                    }
+                    if (checkCourseLink(generateLink(courseCode, "winter"))){
+                        Course course = new Course(courseCode, courseName, "winter");
+                        course.setCourseLink(generateLink(courseCode, "winter"));
+                        allCourses.add(course);
+                        scrapeCourse(course);
+                    }
+                    if (checkCourseLink(generateLink(courseCode, "year"))){
+                        Course course = new Course(courseCode, courseName, "year");
+                        course.setCourseLink(generateLink(courseCode, "year"));
+                        allCourses.add(course);
+                        scrapeCourse(course);
+                    }
                 }
 
                 currentRow ++;
@@ -59,17 +81,34 @@ public class Scrapper {
         return scrapeAllCourses(12000000);
     }
 
-    public static boolean scrapeCourse(Course course, String semester) {
-        String link = generateLink(course, semester);
+    public static boolean checkCourseLink(String link){
         try {
             Document doc = Jsoup.connect(link).get();
+            if (doc.select("table").get(0).select("tr").get(1).select("td").get(0).text().equals(""))
+                return false;
+        }  catch (IOException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e){
+            return false;
+        }
+
+        return true;
+    }
+
+
+    public static boolean scrapeCourse(Course course) {
+        try {
+            Document doc = Jsoup.connect(course.getCourseLink()).get();
             Elements table = doc.select("table");
             Elements rows = table.get(0).select("tr");
+            // System.out.println(rows.toString());
             for(int i = 1; i < rows.size(); i++){
                 Elements data = rows.get(i).select("td");
+                // System.out.println(data);
 
                 String sectionCode = data.get(0).text();
                 String professor = data.get(2).text();
+
                 int capacity;
                 int enrollment;
                 try{
@@ -82,7 +121,16 @@ public class Scrapper {
                 }catch (Exception e){
                     enrollment = 0;
                 }
-                Section section = new Section(sectionCode, capacity, enrollment, professor);
+
+                Section section = null;
+
+                if (sectionCode.contains("Lec"))
+                    section = new Lecture(sectionCode, capacity, enrollment, professor);
+                if (sectionCode.contains("Tut"))
+                    section = new Tutorial(sectionCode, capacity, enrollment, professor);
+                if (sectionCode.contains("Pra"))
+                    section = new Practical(sectionCode, capacity, enrollment, professor);
+
                 course.addSection(section);
 
                 // System.out.println("Type: " + data.get(7).text());
@@ -109,7 +157,7 @@ public class Scrapper {
 
 
                 for (int x = 0; x < timeList.size(); x ++){
-                    section.addMeeting(new Meeting(timeList.get(i), locationList.get(i)));
+                    section.addMeeting(new MeetingTime(timeList.get(x), locationList.get(x)));
                 }
             }
         } catch (IOException e) {
@@ -123,15 +171,13 @@ public class Scrapper {
     }
 
 
-    private static String generateLink(Course course, String semester){
+    private static String generateLink(String courseCode, String semester){
         int year = Calendar.getInstance().get(Calendar.YEAR);
 
         String page = "http://coursefinder.utoronto.ca/course-search/search/courseInquiry?" +
                 "methodToCall=start&viewId=CourseDetails-InquiryView&courseId=";
 
-        page += course.getCourseCode();
-
-
+        page += courseCode;
 
 
         if (semester.equals("fall"))

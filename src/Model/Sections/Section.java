@@ -1,4 +1,6 @@
-package Model;
+package Model.Sections;
+
+import Model.MeetingTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ public class Section {
     private String code;
     private int capacity;
     private int enrollment;
-    private List<Meeting> meetings;
+    private List<MeetingTime> meetings;
     private String professor;
 
     public Section(String sectionCode, int capacity, int enrollment, String professor){
@@ -23,7 +25,7 @@ public class Section {
         this.professor = professor;
     }
 
-    public void addMeeting(Meeting meeting){
+    public void addMeeting(MeetingTime meeting){
         meetings.add(meeting);
     }
 
@@ -43,12 +45,16 @@ public class Section {
         return enrollment;
     }
 
-    public List<Meeting> getMeetings() {
+    public List<MeetingTime> getMeetings() {
         return meetings;
     }
 
     public String getProfessor() {
         return professor;
+    }
+
+    public String getSectionCode() {
+        return sectionCode;
     }
 
     @Override

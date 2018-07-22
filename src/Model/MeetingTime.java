@@ -1,17 +1,19 @@
 package Model;
 
-public class Meeting {
+public class MeetingTime {
 
     private String day;
     private String startTime;
     private String endTime;
     private String location;
+    private String timeString;
 
-    public Meeting(String timeString, String location){
+    public MeetingTime(String timeString, String location){
         this.day = timeString.toLowerCase().split(" ")[0];
         this.location = location;
         this.startTime = timeString.toLowerCase().split(" ")[1].split("-")[0];
         this.endTime = timeString.toLowerCase().split(" ")[1].split("-")[1];
+        this.timeString = timeString;
     }
 
     public String getDay() {
@@ -30,4 +32,7 @@ public class Meeting {
         return location;
     }
 
+    public String getTimeString(){
+        return timeString;
+    }
 }
