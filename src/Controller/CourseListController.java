@@ -115,7 +115,7 @@ public class CourseListController implements Initializable{
             displayText.appendText(time.getTimeString() + " @ " + time.getLocation() + "\n");
         }
 
-        displayText.appendText("=========================\n");
+        displayText.appendText("=======================\n");
         displayText.appendText("Enrollment: " + section.getEnrollment() + "/" + section.getCapacity() + "\n");
     }
 

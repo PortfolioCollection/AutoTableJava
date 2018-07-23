@@ -101,10 +101,10 @@ public class Scrapper {
             Document doc = Jsoup.connect(course.getCourseLink()).get();
             Elements table = doc.select("table");
             Elements rows = table.get(0).select("tr");
-            // System.out.println(rows.toString());
+            // System.out.println(course.getCourseCode());
             for(int i = 1; i < rows.size(); i++){
                 Elements data = rows.get(i).select("td");
-                // System.out.println(data);
+                // System.out.println(data.text());
 
                 String sectionCode = data.get(0).text();
                 String professor = data.get(2).text();
@@ -149,20 +149,27 @@ public class Scrapper {
 
                 ArrayList<String> locationList;
                 String buildings = data.get(3).text();
-                pattern = Pattern.compile("([a-zA-Z]*) ([0-9]+)");
+                pattern = Pattern.compile("[A-Z]+\\s[a-zA-Z0-9-]+");
                 matcher = pattern.matcher(buildings);
                 locationList = new ArrayList<>();
 
-                while (matcher.find()){locationList.add(matcher.group(0));}
+                while (matcher.find()){
+                    locationList.add(matcher.group(0));
+                }
 
-
+                // System.out.println("time: " + timeList.size() + "   location: " + locationList.size() );
                 for (int x = 0; x < timeList.size(); x ++){
-                    section.addMeeting(new MeetingTime(timeList.get(x), locationList.get(x)));
+                    if (locationList.size() <= x)
+                        section.addMeeting(new MeetingTime(timeList.get(x), "TBA"));
+                    else
+                        section.addMeeting(new MeetingTime(timeList.get(x), locationList.get(x)));
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e){
+            System.out.println("here");
+            e.printStackTrace();
             return false;
         }
 
