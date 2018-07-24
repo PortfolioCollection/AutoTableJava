@@ -17,13 +17,12 @@
    <children>
       <TextArea fx:id="displayText" editable="false" layoutX="204.0" layoutY="309.0" prefHeight="163.0" prefWidth="290.0" />
       <ListView fx:id="courseList" layoutX="14.0" layoutY="107.0" prefHeight="360.0" prefWidth="169.0" />
-      <Button layoutX="142.0" layoutY="62.0" mnemonicParsing="false" text="Go" />
       <RadioButton fx:id="fallButton" disable="true" layoutX="203.0" layoutY="107.0" mnemonicParsing="false" text="Fall" />
       <RadioButton fx:id="winterButton" disable="true" layoutX="284.0" layoutY="107.0" mnemonicParsing="false" text="Winter" />
       <RadioButton fx:id="yearButton" disable="true" layoutX="393.0" layoutY="107.0" mnemonicParsing="false" text="Year" />
       <Label layoutX="203.0" layoutY="132.0" text="Lectures" />
       <ListView fx:id="lectureList" layoutX="203.0" layoutY="161.0" prefHeight="133.0" prefWidth="117.0" />
-      <TextField layoutX="14.0" layoutY="62.0" prefHeight="31.0" prefWidth="117.0" />
+      <TextField fx:id="searchBox" layoutX="73.0" layoutY="63.0" prefHeight="31.0" prefWidth="110.0" />
       <ListView fx:id="tutorialList" layoutX="349.0" layoutY="161.0" prefHeight="133.0" prefWidth="117.0" />
       <Label layoutX="349.0" layoutY="132.0" text="Tutorial" />
       <Label fx:id="courseNameLabel" layoutX="204.0" layoutY="63.0" text="Course name">
@@ -39,5 +38,6 @@
          </font>
       </Label>
       <Button layoutX="512.0" layoutY="357.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="99.0" text="Блять" />
+      <Label layoutX="14.0" layoutY="68.0" text="Search" />
    </children>
 </AnchorPane>

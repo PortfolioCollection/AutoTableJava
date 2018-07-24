@@ -8,6 +8,8 @@ import Model.Sections.Lecture;
 import Model.Sections.Practical;
 import Model.Sections.Section;
 import Model.Sections.Tutorial;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class CourseListController{
+
+    private AllCourses allCourses;
 
     public ListView<Course> courseList;
 
@@ -32,8 +36,23 @@ public class CourseListController{
 
     public TextArea displayText;
 
+    public TextField searchBox;
+
     public void initialize(AllCourses allCourses) {
+        this.allCourses = allCourses;
         initializeCourses(allCourses.getCourses());
+        initializeSearch();
+    }
+
+    private void initializeSearch(){
+        searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
+            courseList.getItems().clear();
+            for (Course course: allCourses.getCourses()){
+                if (course.getCourseCode().startsWith(searchBox.getText().toUpperCase())){
+                    courseList.getItems().add(course);
+                }
+            }
+        });
     }
 
     private void toggleRadioButtons(){
@@ -128,18 +147,17 @@ public class CourseListController{
                 if (newValue.getSemester().equals("fall")) {
                     fallButton.setDisable(false);
                     fallButton.setSelected(true);
-                    loadCourse(newValue);
                 }
                 if (newValue.getSemester().equals("winter")) {
                     winterButton.setDisable(false);
                     winterButton.setSelected(true);
-                    loadCourse(newValue);
                 }
                 if (newValue.getSemester().equals("year")) {
                     yearButton.setDisable(false);
                     yearButton.setSelected(true);
-                    loadCourse(newValue);
                 }
+                loadCourse(newValue);
+                lectureList.getSelectionModel().selectFirst();
 
             }
         });
