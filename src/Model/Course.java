@@ -2,10 +2,11 @@ package Model;
 
 import Model.Sections.Section;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Course {
+public class Course implements Serializable{
     private String courseCode;
     private String courseName;
 

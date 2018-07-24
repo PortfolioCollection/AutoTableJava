@@ -18,9 +18,9 @@ import java.util.regex.Pattern;
 public class Scrapper {
 
 
-    public static List<Course> scrapeAllCourses(int dataSize){
-        List<Course> allCourses = new ArrayList<>();
+    public List<Course> scrapeAllCourses(int dataSize){
 
+        List<Course> allCourses = new ArrayList<>();
 
         String url = "https://fas.calendar.utoronto.ca/print/search-courses-print";
         try {
@@ -77,7 +77,7 @@ public class Scrapper {
         return allCourses;
     }
 
-    public static List<Course> scrapeAllCourses(){
+    public List<Course> scrapeAllCourses(){
         return scrapeAllCourses(12000000);
     }
 
@@ -95,8 +95,7 @@ public class Scrapper {
         return true;
     }
 
-
-    public static boolean scrapeCourse(Course course) {
+    public void scrapeCourse(Course course) {
         try {
             Document doc = Jsoup.connect(course.getCourseLink()).get();
             Elements table = doc.select("table");
@@ -168,13 +167,8 @@ public class Scrapper {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e){
-            System.out.println("here");
             e.printStackTrace();
-            return false;
         }
-
-
-        return true;
     }
 
 

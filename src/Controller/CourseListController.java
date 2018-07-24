@@ -1,9 +1,9 @@
 package Controller;
 
 
+import Model.AllCourses;
 import Model.Course;
 import Model.MeetingTime;
-import Model.Scrapper;
 import Model.Sections.Lecture;
 import Model.Sections.Practical;
 import Model.Sections.Section;
@@ -12,9 +12,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class CourseListController implements Initializable{
+public class CourseListController{
 
     public ListView<Course> courseList;
 
@@ -31,12 +32,8 @@ public class CourseListController implements Initializable{
 
     public TextArea displayText;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // getWebsite(generateLink("CSC207H1","fall"));
-
-        initializeCourses();
-
+    public void initialize(AllCourses allCourses) {
+        initializeCourses(allCourses.getCourses());
     }
 
     private void toggleRadioButtons(){
@@ -119,9 +116,9 @@ public class CourseListController implements Initializable{
         displayText.appendText("Enrollment: " + section.getEnrollment() + "/" + section.getCapacity() + "\n");
     }
 
-    public void initializeCourses(){
+    public void initializeCourses(List<Course> courses){
 
-        courseList.getItems().addAll(Scrapper.scrapeAllCourses(1600000));
+        courseList.getItems().addAll(courses);
 
         courseList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             toggleRadioButtons();

@@ -2,10 +2,11 @@ package Model.Sections;
 
 import Model.MeetingTime;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Section {
+public class Section  implements Serializable {
 
     private String sectionCode;
     private String designation;

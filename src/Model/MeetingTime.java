@@ -1,6 +1,8 @@
 package Model;
 
-public class MeetingTime {
+import java.io.Serializable;
+
+public class MeetingTime  implements Serializable {
 
     private String day;
     private String startTime;

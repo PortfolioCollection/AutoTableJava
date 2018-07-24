@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.AllCourses;
 import exe.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,14 +12,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class CampusWindowController implements Initializable{
+public class CampusWindowController{
 
     public ComboBox<String> campusComboBox;
     public ComboBox<String> departmentComboBox;
 
+    private AllCourses allCourses;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+
+    public void initialize(AllCourses allCourses) {
+        this.allCourses = allCourses;
+
         Map<String, List<String>> campus = new HashMap<>();
 
         List<String> utsg = new ArrayList<>();
@@ -60,6 +64,9 @@ public class CampusWindowController implements Initializable{
 
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("/View/CourseListWindow.fxml"));
             AnchorPane pane = loader.load();
+
+            CourseListController controller = loader.getController();
+            controller.initialize(allCourses);
 
             Scene scene = new Scene(pane);
             Main.getStage().setScene(scene);
