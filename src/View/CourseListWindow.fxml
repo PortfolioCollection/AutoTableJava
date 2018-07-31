@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -13,10 +9,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="486.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CourseListController">
+<AnchorPane prefHeight="523.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CourseListController">
    <children>
-      <TextArea fx:id="displayText" editable="false" layoutX="204.0" layoutY="309.0" prefHeight="163.0" prefWidth="290.0" />
-      <ListView fx:id="courseList" layoutX="14.0" layoutY="107.0" prefHeight="360.0" prefWidth="169.0" />
+      <TextArea fx:id="displayText" editable="false" layoutX="204.0" layoutY="329.0" prefHeight="163.0" prefWidth="290.0" />
+      <ListView fx:id="courseList" layoutX="14.0" layoutY="107.0" prefHeight="384.0" prefWidth="169.0" />
       <RadioButton fx:id="fallButton" disable="true" layoutX="203.0" layoutY="107.0" mnemonicParsing="false" text="Fall" />
       <RadioButton fx:id="winterButton" disable="true" layoutX="284.0" layoutY="107.0" mnemonicParsing="false" text="Winter" />
       <RadioButton fx:id="yearButton" disable="true" layoutX="393.0" layoutY="107.0" mnemonicParsing="false" text="Year" />
@@ -25,9 +21,9 @@
       <TextField fx:id="searchBox" layoutX="73.0" layoutY="63.0" prefHeight="31.0" prefWidth="110.0" />
       <ListView fx:id="tutorialList" layoutX="349.0" layoutY="161.0" prefHeight="133.0" prefWidth="117.0" />
       <Label layoutX="349.0" layoutY="132.0" text="Tutorial" />
-      <Label fx:id="courseNameLabel" layoutX="204.0" layoutY="63.0" text="Course name">
+      <Label fx:id="courseNameLabel" layoutX="201.0" layoutY="68.0" text="Course name">
          <font>
-            <Font size="20.0" />
+            <Font name="Century" size="17.0" />
          </font>
       </Label>
       <Label layoutX="494.0" layoutY="132.0" text="Practical" />
@@ -37,7 +33,14 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <Button layoutX="512.0" layoutY="357.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="99.0" text="Блять" />
+      <Button layoutX="512.0" layoutY="420.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="99.0" text="Блять" />
       <Label layoutX="14.0" layoutY="68.0" text="Search" />
+      <Label layoutX="657.0" layoutY="132.0" text="Saved Courses" />
+      <Label layoutX="634.0" layoutY="161.0" text="Fall" />
+      <ListView layoutX="634.0" layoutY="196.0" prefHeight="124.0" prefWidth="133.0" />
+      <Button layoutX="512.0" layoutY="329.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="99.0" text="Сука" />
+      <Label layoutX="634.0" layoutY="329.0" text="Winter" />
+      <ListView layoutX="634.0" layoutY="363.0" prefHeight="124.0" prefWidth="133.0" />
+      <Button layoutX="627.0" layoutY="45.0" mnemonicParsing="false" onAction="#tableButtonClick" prefHeight="67.0" prefWidth="147.0" text="Make Timetable" />
    </children>
 </AnchorPane>

@@ -8,11 +8,16 @@ import Model.Sections.Lecture;
 import Model.Sections.Practical;
 import Model.Sections.Section;
 import Model.Sections.Tutorial;
+import exe.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -163,5 +168,21 @@ public class CourseListController{
         });
     }
 
+    public void tableButtonClick(){
+        try {
+            Main.getStage().setTitle("Timetable Planner");
 
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/View/TimetableWindow.fxml"));
+            AnchorPane pane = loader.load();
+
+//            TimetableWindowController controller = loader.getController();
+//            controller.initialize();
+
+            Scene scene = new Scene(pane);
+            Main.getStage().setScene(scene);
+            Main.getStage().show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
