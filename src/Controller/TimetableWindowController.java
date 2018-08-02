@@ -1,23 +1,32 @@
 package Controller;
 
+import Model.Course;
+import exe.Main;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TimetableWindowController {
 
     public GridPane tableGrid;
+    public List<Course> courses;
 
 
-    public void initialize(){
+    public void initialize(List<Course> courses){
+        this.courses = courses;
         initializeGrid();
     }
 
@@ -126,5 +135,24 @@ public class TimetableWindowController {
         }
 
 
+    }
+
+    public void makeButtonClick(){
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Generated timetable");
+
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/View/DisplayWindow.fxml"));
+            AnchorPane pane = loader.load();
+
+            DisplayWindowController controller = loader.getController();
+            controller.initialize(courses);
+
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,6 +1,9 @@
 package Model;
 
+import Model.Sections.Lecture;
+import Model.Sections.Practical;
 import Model.Sections.Section;
+import Model.Sections.Tutorial;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -91,5 +94,79 @@ public class Course implements Serializable{
 
     public void setCourseLink(String courseLink){
         this.courseLink = courseLink;
+    }
+
+    public List<Lecture> getLectures(){
+        List<Lecture> lectures = new ArrayList<>();
+        for (Section section: sections){
+            if (section instanceof Lecture)
+                lectures.add((Lecture) section);
+        }
+        return lectures;
+    }
+
+    public List<Tutorial> getTutorials(){
+        List<Tutorial> tutorials = new ArrayList<>();
+        for (Section section: sections){
+            if (section instanceof Tutorial)
+                tutorials.add((Tutorial) section);
+        }
+        return tutorials;
+    }
+
+    public List<Practical> getPracticals(){
+        List<Practical> practicals = new ArrayList<>();
+        for (Section section: sections){
+            if (section instanceof Practical)
+                practicals.add((Practical) section);
+        }
+        return practicals;
+    }
+
+    public List<List<Section>> getGroupedSections(){
+
+        List<List<Section>> combinations = new ArrayList<>();
+
+        if (getTutorials().size() > 0 && getPracticals().size() > 0) {
+            for (int x = 0; x < getLectures().size(); x++) {
+                for (int y = 0; y < getTutorials().size(); y++) {
+                    for (int z = 0; z < getPracticals().size(); z++) {
+                        List<Section> sections = new ArrayList<>();
+                        sections.add(getLectures().get(x));
+                        sections.add(getTutorials().get(y));
+                        sections.add(getPracticals().get(z));
+                        combinations.add(sections);
+                    }
+                }
+            }
+        }
+        if (getTutorials().size() > 0 && getPracticals().size() == 0){
+            for (int x = 0; x < getLectures().size(); x++) {
+                for (int y = 0; y < getTutorials().size(); y++) {
+                    List<Section> sections = new ArrayList<>();
+                    sections.add(getLectures().get(x));
+                    sections.add(getTutorials().get(y));
+                    combinations.add(sections);
+                }
+            }
+        }
+        if (getTutorials().size() == 0 && getPracticals().size() > 0){
+            for (int x = 0; x < getLectures().size(); x++) {
+                for (int z = 0; z < getPracticals().size(); z++) {
+                    List<Section> sections = new ArrayList<>();
+                    sections.add(getLectures().get(x));
+                    sections.add(getPracticals().get(z));
+                    combinations.add(sections);
+                }
+            }
+        }
+        if (getTutorials().size() == 0 && getPracticals().size() == 0){
+            for (int x = 0; x < getLectures().size(); x++) {
+                List<Section> sections = new ArrayList<>();
+                sections.add(getLectures().get(x));
+                combinations.add(sections);
+            }
+        }
+        return combinations;
     }
 }

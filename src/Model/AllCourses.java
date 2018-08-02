@@ -13,7 +13,7 @@ public class AllCourses implements Serializable{
     }
 
     public void saveCourses(){
-        this.courses = new Scrapper().scrapeAllCourses();
+        this.courses = new Scrapper().scrapeAllCourses(120000);
         System.out.println("Courses Loaded");
         System.out.println(LocalDateTime.now());
     }

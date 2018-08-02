@@ -43,6 +43,9 @@ public class CourseListController{
 
     public TextField searchBox;
 
+    public ListView<Course> fallCourseList;
+    public ListView<Course> winterCourseList;
+
     public void initialize(AllCourses allCourses) {
         this.allCourses = allCourses;
         initializeCourses(allCourses.getCourses());
@@ -175,8 +178,8 @@ public class CourseListController{
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("/View/TimetableWindow.fxml"));
             AnchorPane pane = loader.load();
 
-//            TimetableWindowController controller = loader.getController();
-//            controller.initialize();
+            TimetableWindowController controller = loader.getController();
+            controller.initialize(fallCourseList.getItems());
 
             Scene scene = new Scene(pane);
             Main.getStage().setScene(scene);
@@ -184,5 +187,9 @@ public class CourseListController{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addCourseButtonClick(){
+        fallCourseList.getItems().add(courseList.getSelectionModel().getSelectedItem());
     }
 }
