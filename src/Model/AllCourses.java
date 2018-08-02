@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Sections.Section;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,12 +15,20 @@ public class AllCourses implements Serializable{
     }
 
     public void saveCourses(){
-        this.courses = new Scrapper().scrapeAllCourses(120000);
+        this.courses = new Scrapper().scrapeAllCourses();
         System.out.println("Courses Loaded");
         System.out.println(LocalDateTime.now());
     }
 
     public List<Course> getCourses(){
         return courses;
+    }
+
+    public Course getCourseBySection(Section section){
+        for (Course course: courses){
+            if (course.getSections().contains(section))
+                return course;
+        }
+        return null;
     }
 }
