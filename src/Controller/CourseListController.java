@@ -19,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -179,7 +180,10 @@ public class CourseListController{
             AnchorPane pane = loader.load();
 
             TimetableWindowController controller = loader.getController();
-            controller.initialize(fallCourseList.getItems());
+            List<Course> selectedCourses = new ArrayList<>();
+            selectedCourses.addAll(fallCourseList.getItems());
+            selectedCourses.addAll(winterCourseList.getItems());
+            controller.initialize(selectedCourses, allCourses);
 
             Scene scene = new Scene(pane);
             Main.getStage().setScene(scene);
@@ -190,6 +194,25 @@ public class CourseListController{
     }
 
     public void addCourseButtonClick(){
-        fallCourseList.getItems().add(courseList.getSelectionModel().getSelectedItem());
+        Course selectedCourse = courseList.getSelectionModel().getSelectedItem();
+        if (selectedCourse.getSemester().equals("fall")) {
+            fallCourseList.getItems().add(selectedCourse);
+        }
+        if (selectedCourse.getSemester().equals("winter")) {
+            winterCourseList.getItems().add(selectedCourse);
+        }
+        if (selectedCourse.getSemester().equals("year")) {
+            fallCourseList.getItems().add(selectedCourse);
+            winterCourseList.getItems().add(selectedCourse);
+        }
+    }
+
+    public void removeButtonClick(){
+        fallCourseList.getItems().remove(fallCourseList.getSelectionModel().getSelectedItem());
+        fallCourseList.getSelectionModel().clearSelection();
+
+
+        winterCourseList.getItems().remove(winterCourseList.getSelectionModel().getSelectedItem());
+        winterCourseList.getSelectionModel().clearSelection();
     }
 }

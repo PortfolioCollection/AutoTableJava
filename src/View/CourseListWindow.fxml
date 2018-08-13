@@ -37,7 +37,7 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <Button layoutX="512.0" layoutY="420.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="99.0" text="Блять" />
+      <Button layoutX="512.0" layoutY="420.0" mnemonicParsing="false" onAction="#removeButtonClick" prefHeight="67.0" prefWidth="99.0" text="Блять" />
       <Label layoutX="14.0" layoutY="68.0" text="Search" />
       <Label layoutX="657.0" layoutY="132.0" text="Saved Courses" />
       <Label layoutX="634.0" layoutY="161.0" text="Fall" />

@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.AllCourses;
 import Model.Course;
 import exe.Main;
 import javafx.event.EventHandler;
@@ -23,10 +24,11 @@ public class TimetableWindowController {
 
     public GridPane tableGrid;
     public List<Course> courses;
+    private AllCourses allCourses;
 
-
-    public void initialize(List<Course> courses){
+    public void initialize(List<Course> courses, AllCourses allCourses){
         this.courses = courses;
+        this.allCourses  = allCourses;
         initializeGrid();
     }
 
@@ -146,7 +148,7 @@ public class TimetableWindowController {
             AnchorPane pane = loader.load();
 
             DisplayWindowController controller = loader.getController();
-            controller.initialize(courses);
+            controller.initialize(courses, allCourses);
 
             Scene scene = new Scene(pane);
             stage.setScene(scene);
